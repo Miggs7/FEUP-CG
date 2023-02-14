@@ -1,10 +1,10 @@
 # CG 2022/2023
 
-## Group T0xG0y
+## Group T01G07
 | Name             | Number    | E-Mail             |
 | ---------------- | --------- | ------------------ |
-| John Doe         | 201901010 | ...                |
-| Jane Doe         | 201901011 | ...                |
+| David Fang       | 202004179 | up202004179@up.pt  |
+| Miguel Tavares         | 202002811 | up202002811@up.pt                |
 
 ----
 
