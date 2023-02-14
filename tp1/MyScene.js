@@ -33,9 +33,9 @@ export class MyScene extends CGFscene {
 
     //Objects connected to MyInterface
     this.displayAxis = true;
-    this.displayDiamond = true;
-    this.displayTriangle = true;
-    this.displayParallelogram = true;
+    this.displayDiamond = false;
+    this.displayTriangle = false;
+    this.displayParallelogram = false;
     this.scaleFactor = 1;
   }
   initLights() {
@@ -100,9 +100,9 @@ export class MyScene extends CGFscene {
 
     // ---- BEGIN Primitive drawing section
 
-    this.diamond.display();
-    this.triangle.display();
-    this.parallelogram.display();
+    //this.diamond.display();
+    //this.triangle.display();
+    //this.parallelogram.display();
 
     // ---- END Primitive drawing section
   }
