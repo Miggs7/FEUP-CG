@@ -11,5 +11,5 @@ In the exercises 1 and 2:
 -  we have learned how to add the other side of the shape;
 -  we had difficulties in finding out how to add the other side of the shape at first. 
 
-![Screenshot 1](screenshots\cg-t01g07-tp1-2.png)
+![Screenshot 1](screenshots/cg-t01g07-tp1-2.png)
 *exercise 2*
