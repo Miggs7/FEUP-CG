@@ -5,6 +5,7 @@ import { MyTriangle } from "./MyTriangle.js";
 import { MyTriangleSmall } from "./MyTriangleSmall.js";
 import { MyTriangleBig } from "./MyTriangleBig.js";
 import { MyTangram } from "./MyTangram.js";
+import { MyUnitCube } from "./MyUnitCube.js";
 
 /**
  * MyScene
@@ -42,6 +43,7 @@ export class MyScene extends CGFscene {
 
     //tp2
     this.diamond2 = new MyDiamond(this);
+    this.cube = new MyUnitCube(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -58,8 +60,10 @@ export class MyScene extends CGFscene {
     this.displayBigTriangle = false;
     this.displayBigTriangle2 = false;
 
-    this.displayTangram = true;
+    this.displayTangram = false;
+    this.displayCube = false;
 
+    this.displayEx3_5 = true;
     //this.scaleFactor = 1;
   }
   initLights() {
@@ -96,7 +100,10 @@ export class MyScene extends CGFscene {
 
     // Draw axis
     if (this.displayAxis) this.axis.display();
-
+    if  (this.displayCube) {
+      this.cube.display();
+    }
+    /*
     // Draw figures
     if (this.displayDiamond){ 
       this.pushMatrix();
@@ -152,11 +159,11 @@ export class MyScene extends CGFscene {
       this.bigTriangle2.display();
       this.popMatrix();
     }
-
+    */
     if (this.displayTangram) {
       this.tangram.display();
     }
-
+    
     this.setDefaultAppearance();
 
     /*
@@ -169,6 +176,21 @@ export class MyScene extends CGFscene {
 
     this.multMatrix(sca);
     */
+   if (this.displayEx3_5){
+    this.pushMatrix();
+
+    this.translate(0.5,0,0.5);
+    this.rotate(3*Math.PI/2,1,0,0);
+
+    this.pushMatrix();
+    this.translate(0,0,-0.5);
+    this.cube.display();
+    this.popMatrix();
+
+    this.tangram.display();
+
+    this.popMatrix();
+   }
 
     // ---- BEGIN Primitive drawing section
 
