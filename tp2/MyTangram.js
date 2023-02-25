@@ -4,6 +4,7 @@ import { MyTriangle } from './MyTriangle.js';
 import { MyTriangleBig } from './MyTriangleBig.js';
 import { MyParallelogram } from './MyParallelogram.js';
 import { MyTriangleSmall } from './MyTriangleSmall.js';
+
 /**
  * MyTangram
  * @constructor

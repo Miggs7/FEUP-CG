@@ -4,12 +4,28 @@
 
 ## TP 2 Notes
 
-In the exercises 1 and 2: 
+In the exercises 1: 
 
--  we have learned how to create a subclass to reproduce a shape;
--  we have learned how to toggle the visibility of the shapes;
--  we have learned how to add the other side of the shape;
--  we had difficulties in finding out how to add the other side of the shape at first. 
+- we have learned how to make a geometric transformation (translation, rotation, scaling);
+- we have learned how to create a class (tangram) that contains previously created shapes(diamond, triangle, paralelogram);
+- we had difficulties in finding out the right transformation to make the tangram.
 
-![Screenshot 1](screenshots/cg-t01g07-tp1-2.png)
-*exercise 2*
+In the exercises 2:
+
+- we have successfully created a cube from eight vertices;
+- we had difficulties in finding out index of each vertex of the cube.
+
+In the exercises 3:
+
+- we have successfully created a cube from six faces;
+- as the result, we didn't spot any differences from the last exercise.
+
+
+![Screenshot 1](screenshots/cg-t01g07-tp2-1.png)
+<center><i>exercise 1</i></center>
+
+![Screenshot 2](screenshots/cg-t01g07-tp2-2.png)
+<center><i>exercise 2</i></center>
+
+![Screenshot 3](screenshots/cg-t01g07-tp2-3.png)
+<center><i>exercise 3</i></center>
