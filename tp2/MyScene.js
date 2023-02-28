@@ -105,10 +105,13 @@ export class MyScene extends CGFscene {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
-    this.setDefaultAppearance();
+    
 
     // Draw axis
     if (this.displayAxis) this.axis.display();
+    // SetDefaultApprearance should come after display of axis to apply 
+    this.setDefaultAppearance();
+
     if  (this.displayCube) {
       this.cube.display();
     }
