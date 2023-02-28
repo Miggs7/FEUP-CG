@@ -105,16 +105,29 @@ export class MyScene extends CGFscene {
     // Apply transformations corresponding to the camera position relative to the origin
     this.applyViewMatrix();
 
+    this.setDefaultAppearance();
+
     // Draw axis
     if (this.displayAxis) this.axis.display();
     if  (this.displayCube) {
       this.cube.display();
     }
-    /*
+    
     // Draw figures
     if (this.displayDiamond){ 
       this.pushMatrix();
-      this.translate(0,-1,0);
+      //this.translate(0,-1,0);
+
+      var matrix = [
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        0, -1, 0, 1
+      ]
+      
+      this.multMatrix(matrix);
+
+
       this.diamond.display();
       this.popMatrix();
     }
@@ -166,7 +179,7 @@ export class MyScene extends CGFscene {
       this.bigTriangle2.display();
       this.popMatrix();
     }
-    */
+    
     if (this.displayTangram) {
       this.tangram.display();
     }
@@ -219,7 +232,6 @@ export class MyScene extends CGFscene {
     }
 
 
-    this.setDefaultAppearance();
     // ---- BEGIN Primitive drawing section
 
     //this.diamond.display();

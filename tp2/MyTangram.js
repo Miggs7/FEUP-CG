@@ -32,7 +32,14 @@ export class MyTangram extends CGFobject {
         // Figures
         // Diamond 
         this.scene.pushMatrix();
-        this.scene.translate(0,-1,0);
+        //this.scene.translate(0,-1,0);
+        var matrix = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, -1, 0, 1
+          ]
+        this.scene.multMatrix(matrix);
         this.diamond.display();
         this.scene.popMatrix();
         
