@@ -6,6 +6,7 @@ import { MyTangram } from "./MyTangram.js";
 import { MyUnitCube } from "./MyUnitCube.js";
 import { MyDiamond } from "./MyDiamond.js";
 import { MyPrism } from "./MyPrism.js";
+import { MyCylinder } from "./MyCylinder.js";
 
 /**
 * MyScene
@@ -38,14 +39,15 @@ export class MyScene extends CGFscene {
         this.unitCube = new MyUnitCube(this);
         this.diamond = new MyDiamond(this);
         this.prism = new MyPrism(this, 6, 20);
+        this.cylinder = new MyCylinder(this, 8, 20);
           
-        this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.unitCube, this.diamond, this.prism];
+        this.objects = [this.plane, this.pyramid, this.cone, this.tangram, this.unitCube, this.diamond, this.prism, this.cylinder];
 
         // Labels and ID's for object selection on MyInterface
-        this.objectIDs = { 'Plane': 0 , 'Pyramid': 1, 'Cone': 2, 'Tangram': 3, 'UnitCube': 4, 'Diamond': 5, 'Prism': 6};
+        this.objectIDs = { 'Plane': 0 , 'Pyramid': 1, 'Cone': 2, 'Tangram': 3, 'UnitCube': 4, 'Diamond': 5, 'Prism': 6, 'Cylinder': 7};
 
         //Other variables connected to MyInterface
-        this.selectedObject = 6;
+        this.selectedObject = 7;
         this.selectedMaterial = 0;
         this.displayAxis = true;
         this.displayNormals = false;
@@ -182,6 +184,7 @@ export class MyScene extends CGFscene {
         this.materials[this.selectedMaterial].apply();
 
         this.pushMatrix();
+        //this.rotate(Math.PI/2 + Math.PI,1,0,0);
         this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
         
         if (this.displayNormals)

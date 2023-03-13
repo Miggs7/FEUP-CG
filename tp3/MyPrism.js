@@ -54,9 +54,9 @@ export class MyPrism extends CGFobject{
             }
         }
         
-        for (var i = 0; i < this.vertices.length; i++) {
+        /* for (var i = 0; i < this.vertices.length; i++) {
             console.log("i = " + i  +" value = "+ this.vertices[i]);
-        }
+        } */
         /*for(var i = 0; i < this.indices.length; i++){
             console.log("i = " + this.indices[i]);
         }*/
@@ -71,7 +71,7 @@ export class MyPrism extends CGFobject{
         // indice das faces laterais
         for(var i = 0; i < this.vertices.length/3; i+=(this.slices+1)){
             for (var j = i+1; j <= i + this.slices; j++) {
-                console.log("j=" +j);
+                //console.log("j=" +j);
                 if(j % (this.slices+1) == this.slices){
                     //console.log("j = " + j);
                     //console.log("i = " + i);
