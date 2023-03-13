@@ -72,7 +72,7 @@ export class MyPrism extends CGFobject{
         for(var i = 0; i < this.vertices.length/3; i+=(this.slices+1)){
             for (var j = i+1; j <= i + this.slices; j++) {
                 console.log("j=" +j);
-                if(j % (this.slices+1) == 6){
+                if(j % (this.slices+1) == this.slices){
                     //console.log("j = " + j);
                     //console.log("i = " + i);
                     //console.log("j + this.slices + 1" + (j + this.slices + 1));
