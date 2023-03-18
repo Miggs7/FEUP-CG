@@ -23,9 +23,23 @@ export class MyTangram extends CGFobject {
         this.parallelogram = new MyParallelogram(this.scene);
 
         this.bigTriangle = new MyTriangleBig(this.scene);
-        this.bigTriangle2 = new MyTriangleBig(this.scene);
+        this.bigTriangle.texCoords = [
+            1,0,
+            1,1,
+            0.5,0.5
+        ];
+        this.bigTriangle.updateTexCoordsGLBuffers();
 
+        this.bigTriangle2 = new MyTriangleBig(this.scene);
+        
         this.smallTriangle = new MyTriangleSmall(this.scene);
+        this.smallTriangle.texCoords = [
+            0.25,0.75,
+            0.5,0.5,
+            0.75,0.75
+        ];
+        this.smallTriangle.updateTexCoordsGLBuffers();
+
         this.smallTriangle2 = new MyTriangleSmall(this.scene);
 	}
 	
