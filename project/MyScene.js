@@ -2,6 +2,7 @@ import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } fr
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
+import { MyBird } from "./MyBird.js";
 
 /**
  * MyScene
@@ -32,12 +33,14 @@ export class MyScene extends CGFscene {
     this.sphere = new MySphere(this,200,100,100);
     this.panorama4 = new CGFtexture(this,'images/panorama4.jpg');
     this.panorama = new MyPanorama(this, this.panorama4);
+    this.bird = new MyBird(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displaySphere = false;
     this.displayNormals = false;
-    this.displayPanorama = true;
+    this.displayPanorama = false;
+    this.displayBird = true;
     this.scaleFactor = 1;
 
 
@@ -94,6 +97,10 @@ export class MyScene extends CGFscene {
       this.panorama.display();
     }
 
+    if (this.displayBird) {
+      this.bird.display();
+    }
+
     // ---- BEGIN Primitive drawing section
 
     this.pushMatrix();
@@ -104,10 +111,14 @@ export class MyScene extends CGFscene {
     this.plane.display();
     this.popMatrix();
 
-    if (this.displayNormals)
-        this.sphere.enableNormalViz();
-    else
-        this.sphere.disableNormalViz();
+    if (this.displayNormals){
+      this.sphere.enableNormalViz();
+      this.bird.enableNormalViz();
+    } else {
+      this.sphere.disableNormalViz();
+      this.bird.disableNormalViz();
+    }
+        
 
     // ---- END Primitive drawing section
   }
