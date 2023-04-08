@@ -9,11 +9,12 @@ import { CGFobject } from '../lib/CGF.js';
  * @param slices - number of divisions around the Y axis (longitude)
  */
 export class MySphere extends CGFobject {
-    constructor(scene, radius, stacks, slices) {
+    constructor(scene, radius, stacks, slices, inverted = 0) {
         super(scene);
         this.radius = radius;
         this.stacks = stacks;
         this.slices = slices;
+        this.inverted = inverted;
         this.initBuffers();
     }
 
@@ -50,22 +51,42 @@ export class MySphere extends CGFobject {
             // maybe scaling(radius) would ve been good idea?
             this.vertices.push(this.radius * x, this.radius * y, this.radius * z);
 
-            // textCoords
-            texS = 1 - j / this.slices;
-            texT = 1 - i / this.stacks;
+            // texCoords
+            texS = j / this.slices;
+            texT = i / this.stacks;
             this.texCoords.push(texS, texT);
 
+            if (this.inverted == 0) {
             // normals
             this.normals.push(x, y, z);
+            }
+            else {
+            // inverted normals
+            this.normals.push(-x, -y, -z); 
+        }
+            
         }
     }
-
-    for (var i = 0; i < this.stacks; i++) {
-        for (var j = 0; j < this.slices; j++) {
-            var first = i * (this.slices + 1) + j;
-            var second = first + this.slices + 1;
-            this.indices.push(first, second, first + 1);
-            this.indices.push(second, second + 1, first + 1);
+    if (this.inverted == 0) {
+        // indices
+        for (var i = 0; i < this.stacks; i++) {
+            for (var j = 0; j < this.slices; j++) {
+                var first = i * (this.slices + 1) + j;
+                var second = first + this.slices + 1;
+                this.indices.push(first, second, first + 1);
+                this.indices.push(second, second + 1, first + 1);
+            }
+        }
+    }
+    else {
+    // indices for looking at the sphere from inside
+        for (var i = 0; i < this.stacks; i++) {
+            for (var j = 0; j < this.slices; j++) {
+                var first = i * (this.slices + 1) + j;
+                var second = first + this.slices + 1;
+                this.indices.push(first , second, first+ 1);
+                this.indices.push(first + 1, second , second+ 1);
+            }
         }
     }
 
