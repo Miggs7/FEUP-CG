@@ -24,10 +24,10 @@ export class MySphere extends CGFobject {
         this.normals = [];
         this.texCoords = [];
 
-        var theta, phi; // angles
-        var x, y, z; // coordinates
+        var theta, phi;                         // angles
+        var x, y, z;                            // coordinates
         var sinTheta, sinPhi, cosTheta, cosPhi; // sin and cos values for angles
-        var texS, texT; // texture coordinates
+        var texS, texT;                         // texture coordinates
 
     for (var i = 0; i <= this.stacks; i++) {
 
@@ -73,8 +73,8 @@ export class MySphere extends CGFobject {
             for (var j = 0; j < this.slices; j++) {
                 var first = i * (this.slices + 1) + j;
                 var second = first + this.slices + 1;
-                this.indices.push(first, second, first + 1);
-                this.indices.push(second, second + 1, first + 1);
+                this.indices.push(first + 1, second, first );
+                this.indices.push(second + 1, second, first + 1);
             }
         }
     }
@@ -84,8 +84,8 @@ export class MySphere extends CGFobject {
             for (var j = 0; j < this.slices; j++) {
                 var first = i * (this.slices + 1) + j;
                 var second = first + this.slices + 1;
-                this.indices.push(first , second, first+ 1);
-                this.indices.push(first + 1, second , second+ 1);
+                this.indices.push(first, second, first + 1);
+                this.indices.push(first + 1, second, second + 1);
             }
         }
     }

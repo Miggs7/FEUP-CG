@@ -33,4 +33,12 @@ export class MyPanorama extends CGFobject {
         this.appearance.texture = this.texture;
         this.appearance.setTextureWrap('REPEAT', 'REPEAT');
     }
+
+    enableNormalViz() {
+        this.sphere.enableNormalViz();
+    }
+
+    disableNormalViz() {
+        this.sphere.disableNormalViz();
+    }
 }

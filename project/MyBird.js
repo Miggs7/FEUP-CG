@@ -1,5 +1,4 @@
 import {CGFobject} from '../lib/CGF.js';
-import {MyPrism} from "./MyPrism.js";
 import {MyPlane} from "./MyPlane.js";
 
 export class MyBird extends CGFobject {

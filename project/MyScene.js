@@ -31,6 +31,7 @@ export class MyScene extends CGFscene {
     this.axis = new CGFaxis(this);
     this.plane = new MyPlane(this,30);
     this.sphere = new MySphere(this,200,100,100);
+    this.sphere2 = new MySphere(this,200,100,100,1);
     this.panorama4 = new CGFtexture(this,'images/panorama4.jpg');
     this.panorama = new MyPanorama(this, this.panorama4);
     this.bird = new MyBird(this);
@@ -38,6 +39,7 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displaySphere = false;
+    this.displaySphere2 = false;
     this.displayNormals = false;
     this.displayPanorama = false;
     this.displayBird = true;
@@ -92,6 +94,13 @@ export class MyScene extends CGFscene {
       this.sphere.display();
       this.popMatrix();
     }
+
+    if (this.displaySphere2) {
+      this.pushMatrix();
+      this.translate(0,100,0);
+      this.sphere2.display();
+      this.popMatrix();
+    }
       
     if (this.displayPanorama) {
       this.panorama.display();
@@ -113,10 +122,14 @@ export class MyScene extends CGFscene {
 
     if (this.displayNormals){
       this.sphere.enableNormalViz();
+      this.sphere2.enableNormalViz();
       this.bird.enableNormalViz();
+      this.panorama.enableNormalViz();
     } else {
       this.sphere.disableNormalViz();
+      this.sphere2.disableNormalViz();
       this.bird.disableNormalViz();
+      this.panorama.disableNormalViz();	
     }
         
 
