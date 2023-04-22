@@ -25,7 +25,11 @@ export class MyQuad extends CGFobject {
 		this.indices = [
             // face ABCD
             0,2,1,          //ADB
-            2,3,1           //DCB
+            2,3,1,          //DCB
+
+			// face de tras
+			0,1,2,          
+			2,1,3           
 		];
 
 		this.texCoords = [

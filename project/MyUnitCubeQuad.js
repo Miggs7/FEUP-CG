@@ -9,17 +9,9 @@ import { MyQuad } from './MyQuad.js';
 export class MyUnitCubeQuad extends CGFobject{
     /*top (+y) front(+z) right(+x) back(-z) left(-x) bottom(-y)
      */
-    constructor(scene,top="", front = "",right ="",back = "",left = "",bottom="") {
+    constructor(scene) {
 		super(scene);
-        this.texTop = top;
-        this.texFront = front;
-        this.texRight = right;
-        this.texBack = back;
-        this.texLeft = left;
-        this.texBottom = bottom;
-
-        this.initMaterials(this.scene);
-
+        
         this.quad1 = new MyQuad(this.scene);
         this.quad1.texCoords = [
             0,0,
@@ -31,8 +23,6 @@ export class MyUnitCubeQuad extends CGFobject{
 
     display() {
         // Front
-        this.material.texture = this.texFront;
-        this.material.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(-0.5,-0.5,0.5);
@@ -40,9 +30,6 @@ export class MyUnitCubeQuad extends CGFobject{
         this.scene.popMatrix();
 
         // Right
-        this.material.texture = this.texRight;
-        this.material.apply();
-
         this.scene.pushMatrix();
         this.scene.translate(0.5,-0.5,0.5);
         this.scene.rotate(Math.PI/2,0,1,0);
@@ -50,8 +37,6 @@ export class MyUnitCubeQuad extends CGFobject{
         this.scene.popMatrix();
 
         // Top
-        this.material.texture = this.texTop;
-        this.material.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(-0.5,0.5,0.5);
@@ -60,8 +45,6 @@ export class MyUnitCubeQuad extends CGFobject{
         this.scene.popMatrix();
 
         // Back
-        this.material.texture = this.texBack;
-        this.material.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(0.5,-0.5,-0.5);
@@ -70,8 +53,6 @@ export class MyUnitCubeQuad extends CGFobject{
         this.scene.popMatrix();
 
         // Left
-        this.material.texture = this.texLeft;
-        this.material.apply();
 
         this.scene.pushMatrix();
         this.scene.translate(-0.5,-0.5,-0.5);
@@ -80,8 +61,6 @@ export class MyUnitCubeQuad extends CGFobject{
         this.scene.popMatrix();
 
         // Bottom	
-        this.material.texture = this.texBottom;
-        this.material.apply();
         
         this.scene.pushMatrix();
         this.scene.translate(-0.5,-0.5,-0.5);
@@ -89,16 +68,6 @@ export class MyUnitCubeQuad extends CGFobject{
         this.quad1.display();
         this.scene.popMatrix();
 
-    }
-
-    initMaterials(scene) {
-        this.material = new CGFappearance(scene);
-        this.material.setAmbient(0.1, 0.1, 0.1, 1);
-        this.material.setDiffuse(0.9, 0.9, 0.9, 1);
-        this.material.setSpecular(0.1, 0.1, 0.1, 1);
-        this.material.setShininess(10.0);
-        this.material.texture = this.texTop;
-        this.material.setTextureWrap('REPEAT', 'REPEAT');
     }
 
     enableNormalViz() {

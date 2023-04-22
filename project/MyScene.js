@@ -14,7 +14,8 @@ export class MyScene extends CGFscene {
   }
   init(application) {
     super.init(application);
-    this.cameraPosition = new vec3.fromValues(50,10,15);
+    //this.cameraPosition = new vec3.fromValues(50,10,15);
+    this.cameraPosition = new vec3.fromValues(1, 1, 1);
     this.initCameras();
     this.initLights();
 
@@ -107,7 +108,10 @@ export class MyScene extends CGFscene {
     }
 
     if (this.displayBird) {
+      this.pushMatrix();
+      this.scale(2/3,2/3,2/3);
       this.bird.display();
+      this.popMatrix();
     }
 
     // ---- BEGIN Primitive drawing section
