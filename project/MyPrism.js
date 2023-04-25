@@ -191,4 +191,15 @@ export class MyPrism extends CGFobject{
         this.initBuffers();
         this.initNormalVizBuffers();
     }
+
+    setFillMode() { 
+		this.indices=this.indicesTris;
+		this.primitiveType=this.scene.gl.TRIANGLES;
+	}
+
+	setLineMode() 
+	{ 
+		this.indices=this.indicesLines;
+		this.primitiveType=this.scene.gl.LINES;
+	};
 }

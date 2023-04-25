@@ -1,4 +1,4 @@
-import {CGFobject, CGFappearance, CGFtexture} from '../lib/CGF.js';
+import {CGFobject, CGFappearance, CGFtexture, CGFshader} from '../lib/CGF.js';
 import {MyUnitCubeQuad} from './MyUnitCubeQuad.js';
 import {MyPrism} from './MyPrism.js';
 
@@ -9,16 +9,18 @@ import {MyPrism} from './MyPrism.js';
 */
 
 export class MyBirdWing extends CGFobject {
-    constructor(scene) {
+    constructor(scene, side) {
         super(scene);
 
         this.initMaterials(this.scene);
         this.cube = new MyUnitCubeQuad(this.scene);
         this.prism = new MyPrism(this.scene, 3, 1);
+        this.angle = 0;
+        // 0 left wing, 1 right wing
+        this.side = side;
     }
 
     display() {
-
         this.red.apply();
         this.scene.pushMatrix();
         this.scene.scale(1,1,0.125);
@@ -27,11 +29,15 @@ export class MyBirdWing extends CGFobject {
 
         this.darkGray.apply();
         this.scene.pushMatrix();
-        this.scene.translate(0.8,0,-0.0625);
+        this.scene.translate(0.5,0,0);
+        if (this.side == 0)
+            this.scene.rotate(this.angle, 0, 1, 0);
+        else
+            this.scene.rotate(-this.angle, 0, 1, 0);
+        this.scene.translate(0.3,0,-0.0625);
         this.scene.scale(0.6,0.578,0.125);
         this.prism.display();
         this.scene.popMatrix();
-
     }
 
     initMaterials(scene) {
@@ -69,4 +75,18 @@ export class MyBirdWing extends CGFobject {
         this.prism.disableNormalViz();
     }
 
+    setFillMode() { 
+		this.cube.setFillMode();
+        this.prism.setFillMode();
+	}
+
+	setLineMode() 
+	{ 
+		this.cube.setLineMode();
+        this.prism.setLineMode();
+    }
+
+    update(angle) {
+        this.angle = angle;
+    }
 }

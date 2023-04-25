@@ -1,4 +1,4 @@
-import { CGFobject, CGFappearance} from '../lib/CGF.js';
+import { CGFobject, CGFappearance, CGFshader} from '../lib/CGF.js';
 import { MySphere } from './MySphere.js';
 
 /**
@@ -14,6 +14,7 @@ export class MyPanorama extends CGFobject {
         this.initMaterials(this.scene);
 
         this.sphere = new MySphere(this.scene, 200, 100, 100, 1);
+
     }
 
     display() {
@@ -41,4 +42,13 @@ export class MyPanorama extends CGFobject {
     disableNormalViz() {
         this.sphere.disableNormalViz();
     }
+
+    setFillMode() { 
+        this.sphere.setFillMode();
+	}
+
+	setLineMode() 
+    { 
+        this.sphere.setLineMode();
+	};
 }

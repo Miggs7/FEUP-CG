@@ -39,4 +39,13 @@ export class MyBirdBody extends CGFobject {
         this.cube.disableNormalViz();
     }
 
+    setFillMode() { 
+		this.cube.setFillMode();
+	}
+
+	setLineMode() 
+	{ 
+		this.cube.setLineMode();
+    }
+    
 }

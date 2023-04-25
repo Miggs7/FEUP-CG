@@ -64,7 +64,7 @@ export class MyBirdHead extends CGFobject{
         this.quad1.display();
         this.scene.popMatrix();
 
-        
+
         // Top
         //this.material.texture = this.texTop;
         //this.material.apply();
@@ -194,5 +194,14 @@ export class MyBirdHead extends CGFobject{
 
     disableNormalViz() {
         this.quad1.disableNormalViz();
+    }
+
+    setFillMode() { 
+		this.quad1.setFillMode();
+	}
+
+	setLineMode() 
+	{ 
+		this.quad1.setLineMode();
     }
 }

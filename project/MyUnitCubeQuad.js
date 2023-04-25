@@ -77,4 +77,13 @@ export class MyUnitCubeQuad extends CGFobject{
     disableNormalViz() {
         this.quad1.disableNormalViz();
     }
+
+    setFillMode() { 
+        this.quad1.setFillMode();
+	}
+
+	setLineMode() 
+	{ 
+        this.quad1.setLineMode();
+	};
 }

@@ -62,5 +62,16 @@ export class MyQuad extends CGFobject {
 		this.texCoords = [...coords];
 		this.updateTexCoordsGLBuffers();
 	}
+
+	setFillMode() { 
+		this.indices=this.indicesTris;
+		this.primitiveType=this.scene.gl.TRIANGLES;
+	}
+
+	setLineMode() 
+	{ 
+		this.indices=this.indicesLines;
+		this.primitiveType=this.scene.gl.LINES;
+	};
 }
 
