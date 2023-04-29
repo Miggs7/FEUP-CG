@@ -3,6 +3,7 @@ import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird } from "./MyBird.js";
+import { MyTerrain } from "./MyTerrain.js";
 
 /**
  * getStringFromUrl(url)
@@ -54,12 +55,14 @@ export class MyScene extends CGFscene {
     this.panorama4 = new CGFtexture(this,'images/panorama4.jpg');
     this.panorama = new MyPanorama(this, this.panorama4);
     this.bird = new MyBird(this);
+    this.terrain = new MyTerrain(this);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displayNormals = false;
     this.displayPanorama = false;
     this.displayBird = true;
+    this.displayTerrain = true;
 
     // Factors
     this.scaleFactor = 1;
@@ -153,11 +156,13 @@ export class MyScene extends CGFscene {
       this.axis.display();
     }
     
+    // Draw Panorama
     if (this.displayPanorama) {
       this.setActiveShader(this.panoramShader);
       this.panorama.display();
     }
 
+    // Draw Bird
     if (this.displayBird) {
       this.setActiveShader(this.parrotShader);
       this.pushMatrix();
@@ -166,7 +171,14 @@ export class MyScene extends CGFscene {
       this.popMatrix();
     }
 
+    // Draw Terrain
+    if (this.displayTerrain) {
+      //console.log(this.terrain);
+      this.terrain.display();
+    }
+
     // ---- BEGIN Primitive drawing section
+    /*
     this.setActiveShader(this.defaultShader);
     this.pushMatrix();
     this.appearance.apply();
@@ -175,6 +187,7 @@ export class MyScene extends CGFscene {
     this.rotate(-Math.PI/2.0,1,0,0);
     this.plane.display();
     this.popMatrix();
+    */
 
     if (this.displayNormals){
       this.bird.enableNormalViz();
@@ -191,9 +204,11 @@ export class MyScene extends CGFscene {
 		if (v){
 			this.bird.setLineMode();
       this.panorama.setLineMode();
+      this.terrain.setLineMode();
     } else {
       this.bird.setFillMode();
       this.panorama.setFillMode();
+      this.terrain.setFillMode();
     }
 			
 	}
