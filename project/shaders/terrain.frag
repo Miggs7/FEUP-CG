@@ -18,6 +18,8 @@ void main() {
 	vec4 gradient = texture2D(terrainGradient, vec2(-height.r));
 
 	vec4 finalColor = mix(color, gradient, 0.3);
-
+	
+	//gl_FrafColor = color;
+	//gl_FragColor = gradient;
 	gl_FragColor = finalColor;
 }

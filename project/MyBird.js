@@ -29,6 +29,10 @@ export class MyBird extends CGFobject {
         this.scene.pushMatrix();
         this.scene.translate(this.position.x, this.position.y, this.position.z);
         this.scene.rotate(this.angleY, 0, 1, 0);
+        if (this.speed < 10)
+            this.scene.rotate(Math.PI / 6 * (this.speed/10), 1, 0, 0);
+        else 
+            this.scene.rotate(Math.PI / 6, 1, 0, 0);
         this.display_bird(this.angleWing);
         this.scene.popMatrix();
     }
@@ -72,19 +76,19 @@ export class MyBird extends CGFobject {
         this.scene.scale(1,0.75,1);
         this.wing2.display();
         this.scene.popMatrix();
+        if (this.speed == 0) {
+            /*left feet*/
+            this.scene.pushMatrix();
+            this.scene.translate(0.12,-1.25,-0.25);
+            this.feet.display();
+            this.scene.popMatrix();
 
-        /*left feet*/
-        this.scene.pushMatrix();
-        this.scene.translate(0.12,-1.25,-0.25);
-        this.feet.display();
-        this.scene.popMatrix();
-
-        /*right feet*/
-        this.scene.pushMatrix();
-        this.scene.translate(-0.37,-1.25,-0.25);
-        this.feet.display();
-        this.scene.popMatrix();
-
+            /*right feet*/
+            this.scene.pushMatrix();
+            this.scene.translate(-0.37,-1.25,-0.25);
+            this.feet.display();
+            this.scene.popMatrix();
+        }
     }
 
     enableNormalViz() {
@@ -133,11 +137,11 @@ export class MyBird extends CGFobject {
         this.position.z += this.speed * Math.cos(this.angleY) * deltaTime / 1000;
 
         if (this.speed > 0) {
-            this.angleWing = Math.sin(t / 1000 * this.speed) * Math.PI / 4 + Math.PI / 2;
-            this.angleWing2 = Math.sin(t / 1000 * this.speed) * Math.PI / 6; 
+            this.angleWing = Math.sin((t/(100*Math.PI/2) % (2*Math.PI)) + this.speed) * Math.PI / 4 + Math.PI / 2;
+            this.angleWing2 = Math.sin((t/(100*Math.PI/2) % (2*Math.PI)) + this.speed) * Math.PI / 6; 
         } else {
-            this.angleWing = Math.sin(t / 1000 * 5) * Math.PI / 4 + Math.PI / 2;
-            this.angleWing2 = Math.sin(t / 1000 * 5) * Math.PI / 6;
+            this.angleWing = Math.sin(t/(100*Math.PI/2) % (2*Math.PI)) * Math.PI / 4 + Math.PI / 2;
+            this.angleWing2 = Math.sin(t/(100*Math.PI/2) % (2*Math.PI)) * Math.PI / 6;
         }
 
         this.wing1.update(this.angleWing2);

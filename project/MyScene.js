@@ -36,7 +36,7 @@ export class MyScene extends CGFscene {
   init(application) {
     super.init(application);
     //this.cameraPosition = new vec3.fromValues(50,10,15);
-    this.cameraPosition = new vec3.fromValues(1, 1, 1);
+    this.cameraPosition = new vec3.fromValues(5, 5, 5);
     this.initCameras();
     this.initLights();
 
