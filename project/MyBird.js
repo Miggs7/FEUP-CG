@@ -4,25 +4,35 @@ import {MyBirdBody} from './MyBirdBody.js';
 import {MyBirdTail} from './MyBirdTail.js';
 import {MyBirdWing} from './MyBirdWing.js';
 import {MyBirdFeet} from './MyBirdFeet.js';
+import {MyBirdEgg} from './MyBirdEgg.js';
+
+export const BirdStates = {
+    MOVING: 0,
+    CATCHING: 1,
+    RETURNING: 2
+};
 
 export class MyBird extends CGFobject {
     constructor(scene) {
         super(scene);
 
+        // bird parts
         this.head = new MyBirdHead(this.scene);
         this.body = new MyBirdBody(this.scene);
         this.tail = new MyBirdTail(this.scene);
         this.wing1 = new MyBirdWing(this.scene, 0);
         this.wing2 = new MyBirdWing(this.scene, 1);
         this.feet = new MyBirdFeet(this.scene);
-
-        this.speed = 0; // initial velocity
-        this.angleY = 0; // initial angle
-        this.position = { x: 0, y: 3, z: 0 }; // initial position
-        this.time = 0; // initial time
-        this.angleWing = 0;
-        this.angleWing2 = 0;
         
+        // bird properties
+        this.speed = 0;                         // initial velocity
+        this.angleY = 0;                        // initial angle
+        this.position = { x: 0, y: 3, z: 0 };   // initial position
+        this.time = 0;                          // initial time
+        this.angleWing = 0;                     // initial wing angle
+        this.angleWing2 = 0;                    // initial wing angle
+        this.birdState = BirdStates.MOVING;     // initial state
+        this.egg = null;                        // initial egg
     }
 
     display() {
@@ -35,6 +45,10 @@ export class MyBird extends CGFobject {
             this.scene.rotate(Math.PI / 6, 1, 0, 0);
         this.display_bird(this.angleWing);
         this.scene.popMatrix();
+
+        if (this.egg != null) {
+            this.egg.display();
+        }
     }
 
     display_bird() {
@@ -128,13 +142,42 @@ export class MyBird extends CGFobject {
         this.feet.setLineMode();
     }
     
-    update(t) {
+    update(t, eggToCatch = null) {
         var deltaTime = t - this.time;
         this.time = t;
 
+        //console.log(eggToCatch);
+        //console.log(this.birdState);
+        //console.log(this.position);
 
-        this.position.x += this.speed * Math.sin(this.angleY) * deltaTime / 1000;
-        this.position.z += this.speed * Math.cos(this.angleY) * deltaTime / 1000;
+        if (this.egg != null) {
+            this.egg.position = this.position;
+        }
+
+        switch (this.birdState) {
+            case BirdStates.MOVING:
+                this.position.x += this.speed * Math.sin(this.angleY) * deltaTime / 1000;
+                this.position.z += this.speed * Math.cos(this.angleY) * deltaTime / 1000;
+                break;
+
+            case BirdStates.CATCHING:
+                this.position.y -= deltaTime / 1000;
+
+                if(eggToCatch.position.y >= this.position.y){
+                    this.egg = eggToCatch;
+                    this.birdState = BirdStates.RETURNING;
+                }
+                break;
+
+            case BirdStates.RETURNING:
+                this.position.y += deltaTime / 1000;
+
+                if (this.position.y >= 3) {
+                    this.birdState = BirdStates.MOVING;
+                }
+                break;
+        }
+
 
         if (this.speed > 0) {
             this.angleWing = Math.sin((t/(100*Math.PI/2) % (2*Math.PI)) + this.speed) * Math.PI / 4 + Math.PI / 2;
@@ -165,6 +208,18 @@ export class MyBird extends CGFobject {
         this.angleY = 0;
         this.position = { x: 0, y: 3, z: 0 };
         this.time = 0;
+        this.angleWing = 0;
+        this.angleWing2 = 0;
+        this.birdState = BirdStates.MOVING;
+        this.egg = null;
     }
 
+    setBirdState(state) {
+        this.birdState = state;
+    }
+
+    getPosition() {
+        const p = this.position;
+        return p;
+    }
 }
