@@ -156,7 +156,9 @@ export class MyScene extends CGFscene {
 
     if(this.gui.isKeyPressed("KeyP")){
       this.eggs.forEach(egg => {
-        if(egg.position.x === this.bird.position.x && egg.position.z === this.bird.position.z){
+
+        // if the egg is in range of the bird, catch it
+        if (Math.abs(this.bird.position.x - egg.position.x) < 1 && Math.abs(this.bird.position.z - egg.position.z) < 1) {
           this.eggToCatch = egg;
           this.bird.setBirdState(BirdStates.CATCHING);
         }
