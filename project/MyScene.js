@@ -6,6 +6,7 @@ import { MyBird, BirdStates } from "./MyBird.js";
 import { MyTerrain } from "./MyTerrain.js";
 import { EggStates, MyBirdEgg } from "./MyBirdEgg.js";
 import { MyNest } from "./MyNest.js";
+import { MyBillboard } from "./MyBillboard.js";
 
 
 /**
@@ -63,9 +64,10 @@ export class MyScene extends CGFscene {
     this.egg2 = new MyBirdEgg(this,100, -20, -125);
     this.egg3 = new MyBirdEgg(this,125, -20, -100);
     this.egg4 = new MyBirdEgg(this,125, -20, -125);
-    this.egg5 = new MyBirdEgg(this,0, 0, 0);
-    this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4, this.egg5];
+    this.egg5 = new MyBirdEgg(this,112.5, -20, -112.5);
+    this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4];
     this.nest = new MyNest(this, 100, -22, -140);
+    this.billboard = new MyBillboard(this, 0, 0, 0);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -75,6 +77,7 @@ export class MyScene extends CGFscene {
     this.displayTerrain = true;
     this.displayEggs = true;
     this.displayNest = true;
+    this.displayBillboard = true;
 
     // Factors
     this.scaleFactor = 1;
@@ -232,6 +235,12 @@ export class MyScene extends CGFscene {
     if (this.displayNest) {
       this.setActiveShader(this.defaultShader);
       this.nest.display_nest();
+    }
+
+    // Draw billboard
+    if (this.displayBillboard) {
+      this.setActiveShader(this.defaultShader);
+      this.billboard.display();
     }
 
     // ---- BEGIN Primitive drawing section
