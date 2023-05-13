@@ -93,8 +93,6 @@ export class MyScene extends CGFscene {
     this.appearance.setTextureWrap('REPEAT', 'REPEAT');
 
     // shaders initialization
-
-    this.parrotShader = new CGFshader(this.gl, "./shaders/parrotanim.vert", "./shaders/parrotanim.frag");
     this.panoramShader = new CGFshader(this.gl, "./shaders/panoram.vert", "./shaders/panoram.frag");
 
     //this.parrotShader.setUniformsValues({ uSampler2: 1 });

@@ -1,4 +1,4 @@
-import {CGFobject} from '../lib/CGF.js';
+import {CGFobject, CGFappearance} from '../lib/CGF.js';
 import {MyPlane} from './MyPlane.js';
 
 /**
@@ -12,9 +12,17 @@ export class MyBillboard extends CGFobject {
         this.plane = new MyPlane(this.scene, 30);
 
         this.position = { x: x, y: y, z: z };
+
+        this.texture = new CGFappearance(this.scene);
+        this.texture.setAmbient(0.1, 0.1, 0.1, 1);
+        this.texture.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.texture.setSpecular(0.1, 0.1, 0.1, 1);
+        this.texture.setShininess(10.0);
+        this.texture.loadTexture('images/billboardtree.png');
     }
 
     display() {
+        this.texture.apply();
         this.scene.pushMatrix();// Translate to the billboard position
         // Translate to the billboard position
         //this.scene.translate(this.position.x, this.position.y, this.position.z);
@@ -40,7 +48,6 @@ export class MyBillboard extends CGFobject {
 
         // Rotate the plane so that it faces the camera
         this.scene.rotate(-angle, u[0], u[1], u[2]);
-    
 
         // Display the plane
         this.plane.display();
