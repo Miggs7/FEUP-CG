@@ -166,8 +166,9 @@ export class MyScene extends CGFscene {
     }
 
     if (this.gui.isKeyPressed("KeyO") && this.bird.egg != null) {
-      if (this.bird.egg.position.x === this.nest.position.x && this.bird.egg.position.z === this.nest.position.z) {
-        //get the value of bird's position, and create a new egg in that position, that won't be affected by bird's movement
+
+      // checks if the bird is near the nest
+      if (Math.abs(this.bird.position.x - this.nest.position.x) < 1 && Math.abs(this.bird.position.z - this.nest.position.z) < 1) {
         let egg = new MyBirdEgg(this, this.bird.position.x, this.bird.position.y, this.bird.position.z);
         this.bird.egg = null;
         this.eggs.push(egg);
