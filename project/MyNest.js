@@ -1,5 +1,6 @@
 import {CGFobject, CGFappearance} from '../lib/CGF.js';
 import {MyPlane} from './MyPlane.js';
+import {EggStates, MyBirdEgg} from './MyBirdEgg.js';
 
 export class MyNest extends CGFobject {
     constructor(scene, x=0, y=0, z=0) {
@@ -15,14 +16,20 @@ export class MyNest extends CGFobject {
         this.nesttexture.setSpecular(0.1, 0.1, 0.1, 1);
         this.nesttexture.setShininess(10.0);
         this.nesttexture.loadTexture('images/hay.jpg');
+        
+        this.eggs = [];
     }
 
     display_nest(){
         this.scene.pushMatrix();
         this.scene.translate(this.position.x, this.position.y, this.position.z);
-        this.scene.scale(4, 1, 4);
+        this.scene.scale(5, 1.5, 5);
         this.display();
         this.scene.popMatrix();
+
+        this.eggs.forEach(egg => {
+            egg.display();
+        });
     }
 
     display() {
@@ -140,4 +147,54 @@ export class MyNest extends CGFobject {
 	setLineMode() { 
         this.plane.setLineMode();
     }
+
+    addEgg(egg) {
+        this.eggs.push(egg);
+    }
+
+    updateEggs(){
+        this.eggs.forEach(egg => {
+          if (egg.status == EggStates.FALLING) {
+
+            if (egg.position.y <= this.position.y + 1.2) {
+                egg.status = EggStates.IN_NEST;
+            }
+            egg.position.y -= 0.1;
+          }
+
+          switch (egg.status) {
+            case EggStates.FALLING:
+                if (egg.position.y <= this.position.y + 1.2) {
+                    egg.status = EggStates.IN_NEST;
+                }
+                egg.position.y -= 0.1;
+                break;
+            case EggStates.IN_NEST:
+                let index = this.eggs.indexOf(egg) + 1;
+                switch (index){
+                    case 1:
+                        egg.position.x = this.position.x + 1;
+                        egg.position.z = this.position.z + 1;
+                        break;
+                    case 2:
+                        egg.position.x = this.position.x + 1;
+                        egg.position.z = this.position.z - 1;
+                        break;
+                    case 3:
+                        egg.position.x = this.position.x - 1;
+                        egg.position.z = this.position.z + 1;
+                        break;
+                    case 4:
+                        egg.position.x = this.position.x - 1;
+                        egg.position.z = this.position.z - 1;
+                        break;
+                    default:
+                        break;
+                }
+                egg.status = EggStates.STOP;
+                default:
+                    break;
+            }
+        });
+      }
 }

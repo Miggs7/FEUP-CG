@@ -4,7 +4,7 @@ import { MyPlane } from "./MyPlane.js";
 import { MySphere } from "./MySphere.js";
 import { MyBird, BirdStates } from "./MyBird.js";
 import { MyTerrain } from "./MyTerrain.js";
-import { MyBirdEgg } from "./MyBirdEgg.js";
+import { EggStates, MyBirdEgg } from "./MyBirdEgg.js";
 import { MyNest } from "./MyNest.js";
 
 
@@ -34,7 +34,6 @@ export class MyScene extends CGFscene {
     this.showShaderCode = false;
 
     this.scaleFactor = 1;
-		this.amplitudeFactor = 0.5;
   }
   init(application) {
     super.init(application);
@@ -66,7 +65,7 @@ export class MyScene extends CGFscene {
     this.egg4 = new MyBirdEgg(this,125, -20, -125);
     this.egg5 = new MyBirdEgg(this,0, 0, 0);
     this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4, this.egg5];
-    this.nest = new MyNest(this);
+    this.nest = new MyNest(this, 100, -22, -140);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -152,13 +151,15 @@ export class MyScene extends CGFscene {
         this.egg4 = new MyBirdEgg(this,125, -20, -125);
         this.egg5 = new MyBirdEgg(this,0, 0, 0);
         this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4, this.egg5];
+        
+        this.nest.eggs = [];
     }
 
     if(this.gui.isKeyPressed("KeyP")){
       this.eggs.forEach(egg => {
 
         // if the egg is in range of the bird, catch it
-        if (Math.abs(this.bird.position.x - egg.position.x) < 1 && Math.abs(this.bird.position.z - egg.position.z) < 1) {
+        if (Math.abs(this.bird.position.x - egg.position.x) < 5 && Math.abs(this.bird.position.z - egg.position.z) < 5) {
           this.eggToCatch = egg;
           this.bird.setBirdState(BirdStates.CATCHING);
         }
@@ -168,10 +169,10 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyO") && this.bird.egg != null) {
 
       // checks if the bird is near the nest
-      if (Math.abs(this.bird.position.x - this.nest.position.x) < 1 && Math.abs(this.bird.position.z - this.nest.position.z) < 1) {
-        let egg = new MyBirdEgg(this, this.bird.position.x, this.bird.position.y, this.bird.position.z);
+      if (Math.abs(this.bird.position.x - this.nest.position.x) < 5 && Math.abs(this.bird.position.z - this.nest.position.z) < 5) {
+        let egg = new MyBirdEgg(this, this.bird.position.x, this.bird.position.y - 2, this.bird.position.z, this.bird.angleY, EggStates.FALLING);
         this.bird.egg = null;
-        this.eggs.push(egg);
+        this.nest.addEgg(egg);
       }
     }
   }
@@ -206,7 +207,7 @@ export class MyScene extends CGFscene {
 
     // Draw Bird
     if (this.displayBird) {
-      this.setActiveShader(this.parrotShader);
+      this.setActiveShader(this.defaultShader);
       this.pushMatrix();
       this.scale(this.scaleFactor,this.scaleFactor,this.scaleFactor);
       this.bird.display();
@@ -215,14 +216,13 @@ export class MyScene extends CGFscene {
 
     // Draw Terrain
     if (this.displayTerrain) {
-      //console.log(this.terrain);
-      this.terrain.display();
       this.setActiveShader(this.defaultShader);
+      this.terrain.display();
     }
 
     // Draw Eggs
     if (this.displayEggs) {
-      this.egg1.display();
+      this.setActiveShader(this.defaultShader);
       this.eggs.forEach(egg => {
         egg.display();
       });
@@ -230,18 +230,21 @@ export class MyScene extends CGFscene {
 
     // Draw Nest
     if (this.displayNest) {
+      this.setActiveShader(this.defaultShader);
       this.nest.display_nest();
     }
 
     // ---- BEGIN Primitive drawing section
 
     if (this.displayNormals){
+      this.terrain.enableNormalViz();
       this.bird.enableNormalViz();
       this.panorama.enableNormalViz();
       this.eggs.forEach(egg => {
         egg.enableNormalViz();
       });
     } else {
+      this.terrain.disableNormalViz();
       this.bird.disableNormalViz();
       this.panorama.disableNormalViz();	
       this.eggs.forEach(egg => {
@@ -277,10 +280,6 @@ export class MyScene extends CGFscene {
 		this.scaleFactor = v;
 	}
 
-	onAmplitudeFactorChanged(v) {
-		this.parrotShader.setUniformsValues({ amplitude: this.amplitudeFactor });
-	}
-
   onSpeedFactorChanged(v){
     this.speedFactor = v;
   }
@@ -301,11 +300,6 @@ export class MyScene extends CGFscene {
 
     // update scale factor
 		this.onScaleFactorChanged(this.scaleFactor);
-		this.onAmplitudeFactorChanged(this.amplitudeFactor);
-		// only shader anim is using time factor
-		// Dividing the time by 100 "slows down" the variation (i.e. in 100 ms timeFactor increases 1 unit).
-		// Doing the modulus (%) by 100 makes the timeFactor loop between 0 and 99
-		// ( so the loop period of timeFactor is 100 times 100 ms = 10s ; the actual animation loop depends on how timeFactor is used in the shader )
-    this.parrotShader.setUniformsValues({ timeFactor: t/(100*Math.PI/2) % (2*Math.PI) });
+    this.nest.updateEggs();
 	}
 }

@@ -55,6 +55,60 @@ export class MyBirdHead extends CGFobject{
         this.quad1.display();
         this.scene.popMatrix();
 
+        this.white.apply();
+        //eye 1
+        this.scene.pushMatrix();
+        this.scene.translate(0.26,-0.1,0);
+        this.scene.rotate(Math.PI/2,0,1,0);
+        this.scene.scale(0.25,0.34,0.15);
+        this.quad1.display();
+        this.scene.popMatrix();
+
+        //eye 1 front
+        this.scene.pushMatrix();
+        this.scene.translate(0.26,-0.1,0.01);
+        this.scene.rotate(Math.PI/2,0,0,1);
+        this.scene.scale(0.35,0.25,0.15);
+        this.quad1.display();
+        this.scene.popMatrix();
+        
+        //iris 1
+        this.darkGray.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(0.27,0.1,0);
+        this.scene.rotate(Math.PI/2,0,1,0);
+        this.scene.scale(0.25,0.15,0.20);
+        this.quad1.display();
+        this.scene.popMatrix();
+
+        //eye 2
+        this.white.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.26,-0.1,0);
+        this.scene.rotate(Math.PI/2,0,1,0);
+        this.scene.scale(0.25,0.34,0.15);
+        this.quad1.display();
+        this.scene.popMatrix();
+
+        //eye 2 front
+        this.scene.pushMatrix();
+        this.scene.translate(-0.01,-0.1,0.01);
+        this.scene.rotate(Math.PI/2,0,0,1);
+        this.scene.scale(0.35,0.25,0.15);
+        this.quad1.display();
+        this.scene.popMatrix();
+
+        //iris 2
+        this.darkGray.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(-0.27,0.1,0);
+        this.scene.rotate(Math.PI/2,0,1,0);
+        this.scene.scale(0.25,0.15,0.15);
+        this.quad1.display();
+        this.scene.popMatrix();
+
+        this.red.apply();
+
         // right 2
 
         this.scene.pushMatrix();
@@ -185,6 +239,13 @@ export class MyBirdHead extends CGFobject{
         this.darkGray.setDiffuse(0.2, 0.2, 0.2, 1.0);
         this.darkGray.setSpecular(0.2, 0.2, 0.2, 1.0);
         this.darkGray.setShininess(10.0);
+
+        this.white = new CGFappearance(scene);
+        this.white.setAmbient(1.0, 1.0, 1.0, 1.0);
+        this.white.setDiffuse(1.0, 1.0, 1.0, 1.0);
+        this.white.setSpecular(1.0, 1.0, 1.0, 1.0);
+        this.white.setShininess(10.0);
+        
 
     }
 

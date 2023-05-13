@@ -1,4 +1,4 @@
-import {CGFobject, CGFshader} from '../lib/CGF.js';
+import {CGFobject, CGFshader,CGFappearance} from '../lib/CGF.js';
 import {MyBirdHead} from './MyBirdHead.js';
 import {MyBirdBody} from './MyBirdBody.js';
 import {MyBirdTail} from './MyBirdTail.js';
@@ -33,9 +33,11 @@ export class MyBird extends CGFobject {
         this.angleWing2 = 0;                    // initial wing angle
         this.birdState = BirdStates.MOVING;     // initial state
         this.egg = null;                        // initial egg
+
     }
 
     display() {
+       
         this.scene.pushMatrix();
         this.scene.translate(this.position.x, this.position.y, this.position.z);
         this.scene.rotate(this.angleY, 0, 1, 0);
@@ -43,12 +45,16 @@ export class MyBird extends CGFobject {
             this.scene.rotate(Math.PI / 6 * (this.speed/10), 1, 0, 0);
         else 
             this.scene.rotate(Math.PI / 6, 1, 0, 0);
-        this.display_bird(this.angleWing);
+        this.display_bird();
+        
         this.scene.popMatrix();
 
         if (this.egg != null) {
+            this.scene.pushMatrix();
             this.egg.display();
+            this.scene.popMatrix();
         }
+        
     }
 
     display_bird() {
@@ -90,19 +96,19 @@ export class MyBird extends CGFobject {
         this.scene.scale(1,0.75,1);
         this.wing2.display();
         this.scene.popMatrix();
-        if (this.speed == 0) {
-            /*left feet*/
-            this.scene.pushMatrix();
-            this.scene.translate(0.12,-1.25,-0.25);
-            this.feet.display();
-            this.scene.popMatrix();
+        
+        /*left feet*/
+        this.scene.pushMatrix();
+        this.scene.translate(0.12,-1.25,-0.25);
+        this.feet.display();
+        this.scene.popMatrix();
 
-            /*right feet*/
-            this.scene.pushMatrix();
-            this.scene.translate(-0.37,-1.25,-0.25);
-            this.feet.display();
-            this.scene.popMatrix();
-        }
+        /*right feet*/
+        this.scene.pushMatrix();
+        this.scene.translate(-0.37,-1.25,-0.25);
+        this.feet.display();
+        this.scene.popMatrix();
+
     }
 
     enableNormalViz() {
@@ -144,6 +150,10 @@ export class MyBird extends CGFobject {
     
     update(t, eggToCatch = null) {
         var deltaTime = t - this.time;
+        var aux = t/(100*Math.PI/2) % (2*Math.PI);
+
+        this.position.y = this.position.y - 0.15*Math.cos(aux);
+
         this.time = t;
 
         //console.log(eggToCatch);
@@ -151,7 +161,9 @@ export class MyBird extends CGFobject {
         //console.log(this.position);
 
         if (this.egg != null) {
-            this.egg.position = this.position;
+            this.egg.position.x = this.position.x;
+            this.egg.position.y = this.position.y - 2;
+            this.egg.position.z = this.position.z;
         }
 
         switch (this.birdState) {
@@ -163,7 +175,7 @@ export class MyBird extends CGFobject {
             case BirdStates.CATCHING:
                 this.position.y -= deltaTime / 1000;
 
-                if(eggToCatch.position.y >= this.position.y){
+                if(eggToCatch.position.y + 2  >= this.position.y){
                     this.egg = eggToCatch;
                     this.birdState = BirdStates.RETURNING;
                 }
@@ -172,7 +184,7 @@ export class MyBird extends CGFobject {
             case BirdStates.RETURNING:
                 this.position.y += deltaTime / 1000;
 
-                if (this.position.y >= 3) {
+                if (this.position.y >= 5) {
                     this.birdState = BirdStates.MOVING;
                 }
                 break;
@@ -194,6 +206,9 @@ export class MyBird extends CGFobject {
 
     turn(v) {
         this.angleY += v;
+        if (this.egg != null) {
+            this.egg.angleY += v;
+        }
     }
 
     accelerate(v) {

@@ -27,7 +27,6 @@ export class MyInterface extends CGFinterface {
         //Slider element in GUI
         this.gui.add(this.scene, 'speedFactor',0.1,3).onChange(this.scene.onSpeedFactorChanged.bind(this.scene));
         this.gui.add(this.scene, 'scaleFactor', 0.5, 3).onChange(this.scene.onScaleFactorChanged.bind(this.scene));
-		this.gui.add(this.scene, 'amplitudeFactor',0,1).onChange(this.scene.onAmplitudeFactorChanged.bind(this.scene));
         this.gui.add(this.scene,'displayPanorama').name('Display Panorama');
         
         this.initKeys();
