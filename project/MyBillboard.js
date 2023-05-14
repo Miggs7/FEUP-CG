@@ -25,7 +25,7 @@ export class MyBillboard extends CGFobject {
         this.texture.apply();
         this.scene.pushMatrix();// Translate to the billboard position
         // Translate to the billboard position
-        //this.scene.translate(this.position.x, this.position.y, this.position.z);
+        this.scene.translate(this.position.x, this.position.y, this.position.z);
 
         // camera position
         let cp = vec3.fromValues(this.scene.camera.position[0], 0, this.scene.camera.position[2]);

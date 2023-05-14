@@ -1,3 +1,4 @@
+
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
@@ -7,6 +8,8 @@ import { MyTerrain } from "./MyTerrain.js";
 import { EggStates, MyBirdEgg } from "./MyBirdEgg.js";
 import { MyNest } from "./MyNest.js";
 import { MyBillboard } from "./MyBillboard.js";
+import { MyTreeGroupPatch } from "./MyTreeGroupPatch.js";
+import { MyTreeRowPatch } from "./MyTreeRowPatch.js";
 
 
 /**
@@ -68,6 +71,8 @@ export class MyScene extends CGFscene {
     this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4];
     this.nest = new MyNest(this, 100, -22, -140);
     this.billboard = new MyBillboard(this, 0, 0, 0);
+    this.MyTreeGroupPatch = new MyTreeGroupPatch(this, 0, 0, 0);
+    this.MyTreeRowPatch = new MyTreeRowPatch(this, 0, 0, 0);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -77,7 +82,9 @@ export class MyScene extends CGFscene {
     this.displayTerrain = true;
     this.displayEggs = true;
     this.displayNest = true;
-    this.displayBillboard = true;
+    this.displayBillboard = false;
+    this.displayTreeGroupPatch = false;
+    this.displayTreeRowPatch = true;
 
     // Factors
     this.scaleFactor = 1;
@@ -239,6 +246,16 @@ export class MyScene extends CGFscene {
     if (this.displayBillboard) {
       this.setActiveShader(this.defaultShader);
       this.billboard.display();
+    }
+
+    if (this.displayTreeGroup) {
+      this.setActiveShader(this.defaultShader);
+      this.MyTreeGroupPatch.display();
+    }
+
+    if (this.displayTreeRowPatch) {
+      this.setActiveShader(this.defaultShader);
+      this.MyTreeRowPatch.display();
     }
 
     // ---- BEGIN Primitive drawing section
