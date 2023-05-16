@@ -10,7 +10,7 @@ export class MyTreeRowPatch extends CGFobject{
     constructor(scene, x=0, y=0, z=0) {
         super(scene);
 
-        // 9 trees that compose the patch in a 3x3 grid
+        // 6 trees that compose the patch in a 1x6 grid
         this.trees = [];
 
         // 1x6 grid of positions
@@ -25,7 +25,7 @@ export class MyTreeRowPatch extends CGFobject{
             [15 , 0, 0]
         ];
         
-        console.log(gridPositions);
+        //console.log(gridPositions);
         // random number of trees
         for (let i = 0; i < 6 ; i++){
             const max = 2;

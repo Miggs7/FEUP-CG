@@ -41,7 +41,7 @@ export class MyScene extends CGFscene {
   }
   init(application) {
     super.init(application);
-    //this.cameraPosition = new vec3.fromValues(50,10,15);
+    this.cameraPosition = new vec3.fromValues(50,10,15);
 
     //Background color
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -58,7 +58,6 @@ export class MyScene extends CGFscene {
     this.panorama4 = new CGFtexture(this,'images/panorama4.jpg');
     this.panorama = new MyPanorama(this, this.panorama4);
     this.bird = new MyBird(this);
-    this.cameraPosition = new vec3.fromValues(5,5,5);
     this.eggToCatch = null;
     this.initCameras();
     this.initLights();
@@ -77,7 +76,7 @@ export class MyScene extends CGFscene {
     //Objects connected to MyInterface
     this.displayAxis = true;
     this.displayNormals = false;
-    this.displayPanorama = false;
+    this.displayPanorama = true;
     this.displayBird = true;
     this.displayTerrain = true;
     this.displayEggs = true;
@@ -101,8 +100,6 @@ export class MyScene extends CGFscene {
 
     // shaders initialization
     this.panoramShader = new CGFshader(this.gl, "./shaders/panoram.vert", "./shaders/panoram.frag");
-
-    //this.parrotShader.setUniformsValues({ uSampler2: 1 });
 		this.panoramShader.setUniformsValues({ uSampler: 2 });
 
     // set the scene update period 
@@ -201,6 +198,33 @@ export class MyScene extends CGFscene {
     this.texture.bind(1);
 		this.panorama4.bind(2);
 
+    this.pushMatrix();
+    this.translate(this.camera.position[0]-100, this.camera.position[1]-50, this.camera.position[2]-100);
+    this.display_scene();
+    this.popMatrix();
+
+    // ---- BEGIN Primitive drawing section
+
+    if (this.displayNormals){
+      this.terrain.enableNormalViz();
+      this.bird.enableNormalViz();
+      this.panorama.enableNormalViz();
+      this.eggs.forEach(egg => {
+        egg.enableNormalViz();
+      });
+    } else {
+      this.terrain.disableNormalViz();
+      this.bird.disableNormalViz();
+      this.panorama.disableNormalViz();	
+      this.eggs.forEach(egg => {
+        egg.disableNormalViz();
+      });
+    }
+
+  // ---- END Primitive drawing section
+  }
+  
+  display_scene(){
     // Draw axis
     if (this.displayAxis) {
       this.setActiveShader(this.defaultShader);
@@ -257,26 +281,6 @@ export class MyScene extends CGFscene {
       this.setActiveShader(this.defaultShader);
       this.MyTreeRowPatch.display();
     }
-
-    // ---- BEGIN Primitive drawing section
-
-    if (this.displayNormals){
-      this.terrain.enableNormalViz();
-      this.bird.enableNormalViz();
-      this.panorama.enableNormalViz();
-      this.eggs.forEach(egg => {
-        egg.enableNormalViz();
-      });
-    } else {
-      this.terrain.disableNormalViz();
-      this.bird.disableNormalViz();
-      this.panorama.disableNormalViz();	
-      this.eggs.forEach(egg => {
-        egg.disableNormalViz();
-      });
-    }
-
-  // ---- END Primitive drawing section
   }
 
   onWireframeChanged(v) {

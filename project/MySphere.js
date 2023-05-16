@@ -79,7 +79,7 @@ export class MySphere extends CGFobject {
         }
     }
     else {
-    // indices for looking at the sphere from inside
+        // indices for looking at the sphere from inside
         for (var i = 0; i < this.stacks; i++) {
             for (var j = 0; j < this.slices; j++) {
                 var first = i * (this.slices + 1) + j;
