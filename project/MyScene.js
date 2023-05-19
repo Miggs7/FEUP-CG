@@ -199,7 +199,7 @@ export class MyScene extends CGFscene {
 		this.panorama4.bind(2);
 
     this.pushMatrix();
-    this.translate(this.camera.position[0]-100, this.camera.position[1]-50, this.camera.position[2]-100);
+    //this.translate(this.camera.position[0], this.camera.position[1], this.camera.position[2]);
     this.display_scene();
     this.popMatrix();
 
@@ -279,7 +279,10 @@ export class MyScene extends CGFscene {
 
     if (this.displayTreeRowPatch) {
       this.setActiveShader(this.defaultShader);
+      this.pushMatrix();
+      this.scale(5,10,5);
       this.MyTreeRowPatch.display();
+      this.popMatrix();
     }
   }
 
@@ -329,5 +332,8 @@ export class MyScene extends CGFscene {
     // update scale factor
 		this.onScaleFactorChanged(this.scaleFactor);
     this.nest.updateEggs();
+    this.billboard.update(t);
+    this.MyTreeGroupPatch.update(t);
+    this.MyTreeRowPatch.update(t);
 	}
 }

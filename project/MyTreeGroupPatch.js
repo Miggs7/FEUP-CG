@@ -52,4 +52,10 @@ export class MyTreeGroupPatch extends CGFobject{
         });
     }
 
+    update(t) {
+        this.trees.forEach(tree => {
+            tree.update(t);
+        });
+    }
+
 }

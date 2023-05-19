@@ -49,4 +49,9 @@ export class MyTreeRowPatch extends CGFobject{
         });
     }
 
+    update(t) {
+        this.trees.forEach(tree => {
+            tree.update(t);
+        });
+    }
 }

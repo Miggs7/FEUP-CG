@@ -1,4 +1,4 @@
-import {CGFobject, CGFappearance} from '../lib/CGF.js';
+import {CGFobject, CGFappearance, CGFshader, CGFtexture} from '../lib/CGF.js';
 import {MyPlane} from './MyPlane.js';
 
 /**
@@ -7,24 +7,31 @@ import {MyPlane} from './MyPlane.js';
  * @param scene - Reference to MyScene object
  */
 export class MyBillboard extends CGFobject {
-    constructor(scene, x, y, z) {
+    constructor(scene, x = 0, y = 0, z = 0) {
         super(scene);
         this.plane = new MyPlane(this.scene, 30);
 
         this.position = { x: x, y: y, z: z };
-
+        /*
         this.texture = new CGFappearance(this.scene);
         this.texture.setAmbient(0.1, 0.1, 0.1, 1);
         this.texture.setDiffuse(0.9, 0.9, 0.9, 1);
         this.texture.setSpecular(0.1, 0.1, 0.1, 1);
         this.texture.setShininess(10.0);
-        this.texture.loadTexture('images/billboardtree.png');
+        this.texture.loadTexture('images/billboardtree.png');*/
+
+        this.treeTexture = new CGFtexture(this.scene, 'images/billboardtree.png');
+
+        this.treeShader = new CGFshader(this.scene.gl, "./shaders/tree.vert", "./shaders/tree.frag");
+        this.treeShader.setUniformsValues({ treeTexture: 0 });
+        this.treeShader.setUniformsValues({ timeFactor: 0 });
     }
 
     display() {
-        this.texture.apply();
-        this.scene.pushMatrix();// Translate to the billboard position
-        // Translate to the billboard position
+        this.scene.pushMatrix();
+        this.scene.setActiveShader(this.treeShader);
+        this.treeTexture.bind(0);
+
         this.scene.translate(this.position.x, this.position.y, this.position.z);
 
         // camera position
@@ -68,6 +75,10 @@ export class MyBillboard extends CGFobject {
 
 	setLineMode() { 
         this.plane.setLineMode();
+    }
+
+    update(t){
+        this.treeShader.setUniformsValues({timeFactor: t / 100 % 1000});
     }
 
 }

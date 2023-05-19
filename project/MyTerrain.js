@@ -1,4 +1,5 @@
 import {CGFobject, CGFappearance, CGFshader, CGFtexture} from '../lib/CGF.js';
+import { MyBillboard } from './MyBillboard.js';
 import { MyPlane } from './MyPlane.js';
 
 /**
@@ -12,6 +13,7 @@ export class MyTerrain extends CGFobject{
 		super(scene);
 
         this.plane = new MyPlane(this.scene, 30);
+        this.tree = new MyBillboard(this.scene);
 
         this.terrainTexture = new CGFtexture(this.scene, "./images/terrain.jpg");
         this.terrainMap = new CGFtexture(this.scene, "./images/heightmap2.jpg");
