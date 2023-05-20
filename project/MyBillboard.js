@@ -25,6 +25,7 @@ export class MyBillboard extends CGFobject {
         this.treeShader = new CGFshader(this.scene.gl, "./shaders/tree.vert", "./shaders/tree.frag");
         this.treeShader.setUniformsValues({ treeTexture: 0 });
         this.treeShader.setUniformsValues({ timeFactor: 0 });
+        this.treeShader.setUniformsValues({ uWindIntensity: 0.6 });
     }
 
     display() {
