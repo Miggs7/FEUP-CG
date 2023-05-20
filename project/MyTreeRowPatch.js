@@ -28,8 +28,8 @@ export class MyTreeRowPatch extends CGFobject{
         //console.log(gridPositions);
         // random number of trees
         for (let i = 0; i < 6 ; i++){
-            const max = 2;
-            const min = -2;
+            const max = 3;
+            const min = -3;
             let x_randomFloat = Math.random() * (max - min) + min;
             let z_randomFloat = Math.random() * (max - min) + min;
             this.trees.push(

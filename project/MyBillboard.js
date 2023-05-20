@@ -34,7 +34,7 @@ export class MyBillboard extends CGFobject {
         this.treeTexture.bind(0);
 
         this.scene.translate(this.position.x, this.position.y, this.position.z);
-
+        this.scene.scale(5,10,5);
         // camera position
         let cp = vec3.fromValues(this.scene.camera.position[0], 0, this.scene.camera.position[2]);
         // object position

@@ -1,4 +1,4 @@
-import { CGFobject } from '../lib/CGF.js';
+import { CGFobject, CGFappearance } from '../lib/CGF.js';
 
 export const EggStates = {
     IN_NEST: 0,
@@ -16,12 +16,24 @@ export const EggStates = {
  * @param slices - number of divisions around the Y axis (longitude)
  */
 export class MyBirdEgg extends CGFobject {
-    constructor(scene, radius, stacks, slices) {
+    constructor(scene, radius, stacks, slices, x=0, y=0, z=0, angleY=0, eggState = EggStates.ON_GROUND) {
         super(scene);
         this.radius = radius;
         this.stacks = stacks;
         this.slices = slices;
         this.initBuffers();
+
+        this.position = {x: x, y: y, z: z};
+        this.angleY = angleY;
+        this.eggState = eggState;
+
+        this.eggtexture = new CGFappearance(this.scene);
+        this.eggtexture.setAmbient(0.1, 0.1, 0.1, 1);
+        this.eggtexture.setDiffuse(0.9, 0.9, 0.9, 1);
+        this.eggtexture.setSpecular(0.1, 0.1, 0.1, 1);
+        this.eggtexture.setShininess(10.0);
+
+        this.eggtexture.loadTexture('images/egg.jpg');
     }
 
     initBuffers() {
@@ -54,9 +66,17 @@ export class MyBirdEgg extends CGFobject {
             y = cosPhi;
             z = sinTheta * sinPhi;
 
-            // maybe scaling(radius) would ve been good idea?
-            this.vertices.push(this.radius * x, this.radius * y, this.radius * z);
+            // scale the coordinates to create an egg shape
+            x *= this.radius;
+            if (y >= 0) {
+                y *= this.radius * 1.5; // elongate along the Y-axis to form an oval top
+            } else {
+                y *= this.radius; // keep the bottom hemisphere spherical
+            }
+            z *= this.radius;
 
+            this.vertices.push(x, y, z);
+            
             // texCoords
             texS = j / this.slices;
             texT = i / this.stacks;
@@ -104,4 +124,13 @@ export class MyBirdEgg extends CGFobject {
 		this.indices=this.indicesLines;
 		this.primitiveType=this.scene.gl.LINES;
 	};
+
+    display() {
+        this.eggtexture.apply();
+        this.scene.pushMatrix();
+        this.scene.translate(this.position.x, this.position.y, this.position.z);
+        this.scene.rotate(this.angleY, 0, 1, 0);
+        super.display();
+        this.scene.popMatrix();
+    }
 }

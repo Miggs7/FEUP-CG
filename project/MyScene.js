@@ -2,12 +2,10 @@
 import { CGFscene, CGFcamera, CGFaxis, CGFappearance, CGFshader, CGFtexture } from "../lib/CGF.js";
 import { MyPanorama } from "./MyPanorama.js";
 import { MyPlane } from "./MyPlane.js";
-import { MySphere } from "./MySphere.js";
 import { MyBird, BirdStates } from "./MyBird.js";
 import { MyTerrain } from "./MyTerrain.js";
 import { EggStates, MyBirdEgg } from "./MyBirdEgg.js";
 import { MyNest } from "./MyNest.js";
-import { MyBillboard } from "./MyBillboard.js";
 import { MyTreeGroupPatch } from "./MyTreeGroupPatch.js";
 import { MyTreeRowPatch } from "./MyTreeRowPatch.js";
 
@@ -42,6 +40,13 @@ export class MyScene extends CGFscene {
   init(application) {
     super.init(application);
     this.cameraPosition = new vec3.fromValues(50,10,15);
+    this.nestPosition = [30, -22, 30];
+
+    this.eggpositions = [];
+    this.generateEggPositions();
+    this.MyTreeGroupPatchPosition = [35, -18, 50];
+    this.MyTreeRowPatchPosition = [10, -18, 50];
+    
 
     //Background color
     this.gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -62,16 +67,11 @@ export class MyScene extends CGFscene {
     this.initCameras();
     this.initLights();
     this.terrain = new MyTerrain(this);
-    this.egg1 = new MyBirdEgg(this, 100, -20, -100);
-    this.egg2 = new MyBirdEgg(this,100, -20, -125);
-    this.egg3 = new MyBirdEgg(this,125, -20, -100);
-    this.egg4 = new MyBirdEgg(this,125, -20, -125);
-    this.egg5 = new MyBirdEgg(this,112.5, -20, -112.5);
-    this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4];
-    this.nest = new MyNest(this, 100, -22, -140);
-    this.billboard = new MyBillboard(this, 0, 0, 0);
-    this.MyTreeGroupPatch = new MyTreeGroupPatch(this, 0, 0, 0);
-    this.MyTreeRowPatch = new MyTreeRowPatch(this, 0, 0, 0);
+    this.eggs =[];
+    this.generateEggs();
+    this.nest = new MyNest(this, this.nestPosition[0], this.nestPosition[1], this.nestPosition[2]);
+    this.MyTreeGroupPatch = new MyTreeGroupPatch(this, this.MyTreeGroupPatchPosition[0], this.MyTreeGroupPatchPosition[1], this.MyTreeGroupPatchPosition[2]);
+    this.MyTreeRowPatch = new MyTreeRowPatch(this, this.MyTreeRowPatchPosition[0], this.MyTreeRowPatchPosition[1], this.MyTreeRowPatchPosition[2]);
 
     //Objects connected to MyInterface
     this.displayAxis = true;
@@ -81,8 +81,7 @@ export class MyScene extends CGFscene {
     this.displayTerrain = true;
     this.displayEggs = true;
     this.displayNest = true;
-    this.displayBillboard = false;
-    this.displayTreeGroupPatch = false;
+    this.displayTreeGroupPatch = true;
     this.displayTreeRowPatch = true;
 
     // Factors
@@ -150,12 +149,11 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyR")) {
         this.bird.reset();
         // clear all eggs
-        this.egg1 = new MyBirdEgg(this, 100, -20, -100);
-        this.egg2 = new MyBirdEgg(this,100, -20, -125);
-        this.egg3 = new MyBirdEgg(this,125, -20, -100);
-        this.egg4 = new MyBirdEgg(this,125, -20, -125);
-        this.egg5 = new MyBirdEgg(this,0, 0, 0);
-        this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4, this.egg5];
+        this.egg1 = new MyBirdEgg(this, 1, 10, 10);
+        this.egg2 = new MyBirdEgg(this, 1, 10, 10);
+        this.egg3 = new MyBirdEgg(this, 1, 10, 10);
+        this.egg4 = new MyBirdEgg(this, 1, 10, 10);
+        this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4];
         
         this.nest.eggs = [];
     }
@@ -167,6 +165,7 @@ export class MyScene extends CGFscene {
         if (Math.abs(this.bird.position.x - egg.position.x) < 5 && Math.abs(this.bird.position.z - egg.position.z) < 5) {
           this.eggToCatch = egg;
           this.bird.setBirdState(BirdStates.CATCHING);
+          //alert("you can catch!");
         }
       });
     }
@@ -175,7 +174,7 @@ export class MyScene extends CGFscene {
 
       // checks if the bird is near the nest
       if (Math.abs(this.bird.position.x - this.nest.position.x) < 5 && Math.abs(this.bird.position.z - this.nest.position.z) < 5) {
-        let egg = new MyBirdEgg(this, this.bird.position.x, this.bird.position.y - 2, this.bird.position.z, this.bird.angleY, EggStates.FALLING);
+        let egg = new MyBirdEgg(this, 1, 10, 10, this.bird.position.x, this.bird.position.y - 2, this.bird.position.z, this.bird.angleY, EggStates.FALLING);
         this.bird.egg = null;
         this.nest.addEgg(egg);
       }
@@ -248,7 +247,6 @@ export class MyScene extends CGFscene {
 
     // Draw Terrain
     if (this.displayTerrain) {
-      this.setActiveShader(this.defaultShader);
       this.terrain.display();
     }
 
@@ -266,23 +264,12 @@ export class MyScene extends CGFscene {
       this.nest.display_nest();
     }
 
-    // Draw billboard
-    if (this.displayBillboard) {
-      this.setActiveShader(this.defaultShader);
-      this.billboard.display();
-    }
-
-    if (this.displayTreeGroup) {
-      this.setActiveShader(this.defaultShader);
+    if (this.displayTreeGroupPatch) {
       this.MyTreeGroupPatch.display();
     }
 
     if (this.displayTreeRowPatch) {
-      this.setActiveShader(this.defaultShader);
-      this.pushMatrix();
-      this.scale(5,10,5);
       this.MyTreeRowPatch.display();
-      this.popMatrix();
     }
   }
 
@@ -332,8 +319,76 @@ export class MyScene extends CGFscene {
     // update scale factor
 		this.onScaleFactorChanged(this.scaleFactor);
     this.nest.updateEggs();
-    this.billboard.update(t);
     this.MyTreeGroupPatch.update(t);
     this.MyTreeRowPatch.update(t);
 	}
+
+  generateEggPositions(){
+    // x -5 a 50, y = -22, z a 30 a 150
+    let xmin = -5;
+    let xmax = 50;
+    let zmin = 30;
+    let zmax = 150;
+    
+    for (let i = 0; i < 5; i++) {
+      let xrand, zrand, isUnique;
+    
+      do {
+        xrand = Math.random() * (xmax - xmin) + xmin;
+        zrand = Math.random() * (zmax - zmin) + zmin;
+    
+        // Check uniqueness
+        isUnique = true;
+        for (let j = 0; j < this.eggpositions.length; j++) {
+          if (
+            this.eggpositions[j][0] === xrand &&
+            this.eggpositions[j][2] === zrand
+          ) {
+            isUnique = false;
+            break;
+          }
+        }
+      } while (!isUnique);
+    
+      this.eggpositions.push([xrand, -22, zrand]);
+    }
+  }
+
+  generateEggs(){
+    this.eggpositions.forEach(position => {
+      let egg = new MyBirdEgg(this, 1, 10, 10, position[0], position[1], position[2]);
+      this.eggs.push(egg);
+    });
+  }
+
+  generateNestPosition(){
+    // x -5 a 50, y = -22, z a 30 a 150
+    let xmin = -5;
+    let xmax = 50;
+    let zmin = 30;
+    let zmax = 150;
+    
+    // check if nest is in egg positions
+    let isUnique;
+    do {
+      let xrand = Math.random() * (xmax - xmin) + xmin;
+      let zrand = Math.random() * (zmax - zmin) + zmin;
+
+      this.nestPosition = [xrand, -22, zrand];
+
+      // Check uniqueness
+      isUnique = true;
+      for (let j = 0; j < this.eggpositions.length; j++) {
+        if (
+          this.eggpositions[j][0] === xrand &&
+          this.eggpositions[j][2] === zrand &&
+          xrand === this.nestPosition[0] &&
+          zrand === this.nestPosition[2]
+        ) {
+          isUnique = false;
+          break;
+        }
+      }
+    } while (!isUnique);
+  }
 }
