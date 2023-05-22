@@ -149,11 +149,10 @@ export class MyScene extends CGFscene {
     if (this.gui.isKeyPressed("KeyR")) {
         this.bird.reset();
         // clear all eggs
-        this.egg1 = new MyBirdEgg(this, 1, 10, 10);
-        this.egg2 = new MyBirdEgg(this, 1, 10, 10);
-        this.egg3 = new MyBirdEgg(this, 1, 10, 10);
-        this.egg4 = new MyBirdEgg(this, 1, 10, 10);
-        this.eggs = [this.egg1, this.egg2, this.egg3, this.egg4];
+        this.eggs = [];
+        this.eggpositions = [];
+        this.generateEggPositions();
+        this.generateEggs();
         
         this.nest.eggs = [];
     }

@@ -21,17 +21,35 @@ export class MyBillboard extends CGFobject {
         this.texture.loadTexture('images/billboardtree.png');*/
 
         this.treeTexture = new CGFtexture(this.scene, 'images/billboardtree.png');
+        this.treeTexture2 = new CGFtexture(this.scene, 'images/billboardtree2.png');
+        this.treeTexture3 = new CGFtexture(this.scene, 'images/billboardtree3.png');
 
         this.treeShader = new CGFshader(this.scene.gl, "./shaders/tree.vert", "./shaders/tree.frag");
         this.treeShader.setUniformsValues({ treeTexture: 0 });
         this.treeShader.setUniformsValues({ timeFactor: 0 });
         this.treeShader.setUniformsValues({ uWindIntensity: 0.6 });
+
+        this.randomNumber = Math.floor(Math.random() * 3) + 1;
     }
 
     display() {
         this.scene.pushMatrix();
         this.scene.setActiveShader(this.treeShader);
-        this.treeTexture.bind(0);
+
+        switch(this.randomNumber){
+            case 1:
+                this.treeTexture.bind(0);
+                break;
+            case 2:
+                this.treeTexture2.bind(0);
+                break;
+            case 3:
+                this.treeTexture3.bind(0);
+                break;
+            default:
+                console.log("texture uknown");
+                break;
+        }
 
         this.scene.translate(this.position.x, this.position.y, this.position.z);
         this.scene.scale(5,10,5);
