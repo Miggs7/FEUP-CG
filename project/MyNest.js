@@ -8,7 +8,7 @@ export class MyNest extends CGFobject {
 
         this.position = { x: x, y: y, z: z };
 
-        this.plane = new MyPlane(this.scene, 20);
+        this.plane = new MyPlane(this.scene, 1);
 
         this.nesttexture = new CGFappearance(this.scene);
         this.nesttexture.setAmbient(0.1, 0.1, 0.1, 1);
@@ -154,20 +154,13 @@ export class MyNest extends CGFobject {
 
     updateEggs(){
         this.eggs.forEach(egg => {
-          if (egg.status == EggStates.FALLING) {
-
-            if (egg.position.y <= this.position.y + 1.2) {
-                egg.status = EggStates.IN_NEST;
-            }
-            egg.position.y -= 0.1;
-          }
-
-          switch (egg.status) {
+          switch (egg.eggState) {
             case EggStates.FALLING:
                 if (egg.position.y <= this.position.y + 1.2) {
-                    egg.status = EggStates.IN_NEST;
+                    egg.eggState = EggStates.IN_NEST;
+                    break;
                 }
-                egg.position.y -= 0.1;
+                egg.position.y -= 0.5;
                 break;
             case EggStates.IN_NEST:
                 let index = this.eggs.indexOf(egg) + 1;
@@ -191,9 +184,10 @@ export class MyNest extends CGFobject {
                     default:
                         break;
                 }
-                egg.status = EggStates.STOP;
-                default:
-                    break;
+                egg.eggState = EggStates.STOP;
+                break;
+            default:
+                break;
             }
         });
       }

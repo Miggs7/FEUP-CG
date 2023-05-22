@@ -54,4 +54,28 @@ export class MyTreeRowPatch extends CGFobject{
             tree.update(t);
         });
     }
+
+    setFillMode() {
+        this.trees.forEach(tree => {
+            tree.setFillMode();
+        });
+	}
+
+	setLineMode() {
+        this.trees.forEach(tree => {
+            tree.setLineMode();
+        });
+	};
+
+    enableNormalViz() {
+        this.trees.forEach(tree => {
+            tree.enableNormalViz();
+        });
+    }
+
+    disableNormalViz(){
+        this.trees.forEach(tree => {
+            tree.disableNormalViz();
+        });
+    }
 }

@@ -34,6 +34,8 @@ export class MyBird extends CGFobject {
         this.birdState = BirdStates.MOVING;     // initial state
         this.egg = null;                        // initial egg
 
+        this.downspeed = 0;
+
     }
 
     display() {
@@ -173,7 +175,7 @@ export class MyBird extends CGFobject {
                 break;
 
             case BirdStates.CATCHING:
-                this.position.y -= deltaTime / 1000 * 2;
+                this.position.y -= this.downspeed;
 
                 if(eggToCatch.position.y + 2  >= this.position.y){
                     this.egg = eggToCatch;
@@ -182,9 +184,9 @@ export class MyBird extends CGFobject {
                 break;
 
             case BirdStates.RETURNING:
-                this.position.y += deltaTime / 1000;
+                this.position.y += this.downspeed;
 
-                if (this.position.y >= 5) {
+                if (this.position.y >= 3) {
                     this.birdState = BirdStates.MOVING;
                 }
                 break;

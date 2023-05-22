@@ -83,6 +83,7 @@ export class MyScene extends CGFscene {
     this.displayNest = true;
     this.displayTreeGroupPatch = true;
     this.displayTreeRowPatch = true;
+    this.fixedCamera = true;
 
     // Factors
     this.scaleFactor = 1;
@@ -165,6 +166,8 @@ export class MyScene extends CGFscene {
           this.eggToCatch = egg;
           this.bird.setBirdState(BirdStates.CATCHING);
           //alert("you can catch!");
+          this.bird.downspeed = (this.bird.position.y - this.eggToCatch.position.y) * 0.05;
+
         }
       });
     }
@@ -196,10 +199,15 @@ export class MyScene extends CGFscene {
     this.texture.bind(1);
 		this.panorama4.bind(2);
 
-    this.pushMatrix();
-    //this.translate(this.camera.position[0], this.camera.position[1], this.camera.position[2]);
+    if (this.fixedCamera) {
+      this.pushMatrix();
+    this.translate(this.camera.position[0], this.camera.position[1]-50, this.camera.position[2]+25);
     this.display_scene();
     this.popMatrix();
+    } else {
+      this.display_scene();
+    }
+    
 
     // ---- BEGIN Primitive drawing section
 
@@ -210,6 +218,9 @@ export class MyScene extends CGFscene {
       this.eggs.forEach(egg => {
         egg.enableNormalViz();
       });
+      this.nest.enableNormalViz();
+      this.MyTreeGroupPatch.enableNormalViz();
+      this.MyTreeRowPatch.enableNormalViz();
     } else {
       this.terrain.disableNormalViz();
       this.bird.disableNormalViz();
@@ -217,6 +228,9 @@ export class MyScene extends CGFscene {
       this.eggs.forEach(egg => {
         egg.disableNormalViz();
       });
+      this.nest.disableNormalViz();
+      this.MyTreeGroupPatch.disableNormalViz();
+      this.MyTreeRowPatch.disableNormalViz();
     }
 
   // ---- END Primitive drawing section
@@ -280,7 +294,9 @@ export class MyScene extends CGFscene {
       this.eggs.forEach(egg => {
         egg.setLineMode();
       });
-
+      this.nest.setLineMode();
+      this.MyTreeGroupPatch.setLineMode();
+      this.MyTreeRowPatch.setLineMode();
     } else {
       this.bird.setFillMode();
       this.panorama.setFillMode();
@@ -288,6 +304,9 @@ export class MyScene extends CGFscene {
       this.eggs.forEach(egg => {
         egg.setFillMode();
       });
+      this.nest.setFillMode();
+      this.MyTreeGroupPatch.setFillMode();
+      this.MyTreeRowPatch.setFillMode();
     }
 			
 	}

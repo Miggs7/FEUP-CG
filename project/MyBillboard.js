@@ -9,7 +9,7 @@ import {MyPlane} from './MyPlane.js';
 export class MyBillboard extends CGFobject {
     constructor(scene, x = 0, y = 0, z = 0) {
         super(scene);
-        this.plane = new MyPlane(this.scene, 30);
+        this.plane = new MyPlane(this.scene, 2);
 
         this.position = { x: x, y: y, z: z };
         /*
@@ -29,7 +29,7 @@ export class MyBillboard extends CGFobject {
         this.treeShader.setUniformsValues({ timeFactor: 0 });
         this.treeShader.setUniformsValues({ uWindIntensity: 0.6 });
 
-        this.randomNumber = Math.floor(Math.random() * 3) + 1;
+         this.randomNumber = Math.floor(Math.random() * 3) + 1;
     }
 
     display() {
