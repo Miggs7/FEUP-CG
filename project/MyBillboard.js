@@ -1,5 +1,6 @@
 import {CGFobject, CGFappearance, CGFshader, CGFtexture} from '../lib/CGF.js';
 import {MyPlane} from './MyPlane.js';
+import {MyQuad} from './MyQuad.js';
 
 /**
  * MyBillboard
@@ -9,7 +10,7 @@ import {MyPlane} from './MyPlane.js';
 export class MyBillboard extends CGFobject {
     constructor(scene, x = 0, y = 0, z = 0) {
         super(scene);
-        this.plane = new MyPlane(this.scene, 2);
+        this.plane = new MyQuad(this.scene);
 
         this.position = { x: x, y: y, z: z };
         /*
